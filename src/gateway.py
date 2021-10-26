@@ -17,7 +17,8 @@ def gateway():
       response = requests.post('http://localhost:5002/soma', data={'n1': n1, 'n2': n2})
     else:
       response = requests.post('http://localhost:5002/subt', data={'n1': n1, 'n2': n2})
-
+      
+    requests.post('http://localhost:5005/logs', data={'n1': n1, 'n2': n2, 'opr': opr})
     return jsonify({'resultado': response.text})
 
 if __name__=='__main__':
