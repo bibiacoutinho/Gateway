@@ -6,8 +6,9 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/gateway', methods=['POST'])
+@app.route('/gateway', methods=['POST', 'GET'])
 def gateway():
+  if request.method == 'POST':
     n1 = request.form['n1']
     n2 = request.form['n2']
     opr = request.form['opr']
@@ -20,6 +21,9 @@ def gateway():
       
     requests.post('http://localhost:5005/logs', data={'n1': n1, 'n2': n2, 'opr': opr})
     return jsonify({'resultado': response.text})
+  else:
+    response = requests.get('http://localhost:5005/logs')
+    return response.text
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', port=5001)
